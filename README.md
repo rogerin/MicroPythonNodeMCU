@@ -1,4 +1,9 @@
-# Tutorial de Configuração do NodeMCU com MicroPython
+# Configurações
+- [Tutorial de Configuração do NodeMCU com MicroPython](#secao-1)
+- [Tutorial: Como instalar a extensão PyMark no Visual Studio Code](#secao-2)
+
+
+# Tutorial de Configuração do NodeMCU com MicroPython <a id="secao-1" name="secao-1"></a>
 
 Neste tutorial, vamos aprender como configurar o NodeMCU para trabalhar com MicroPython. O NodeMCU é uma placa de desenvolvimento que utiliza o microcontrolador ESP8266, e o MicroPython é uma implementação do Python para dispositivos embarcados. Com essa combinação, é possível desenvolver projetos de IoT (Internet of Things) de forma simples e rápida.
 
@@ -52,3 +57,35 @@ Neste tutorial, vamos aprender como configurar o NodeMCU para trabalhar com Micr
 ## Conclusão
 
 Parabéns! Agora você configurou com sucesso o seu NodeMCU para trabalhar com MicroPython. Você pode criar projetos interessantes de IoT e aproveitar toda a facilidade e poder do Python em dispositivos embarcados. Explore a documentação do MicroPython para conhecer as bibliotecas disponíveis e divirta-se desenvolvendo!
+
+-------
+
+# Tutorial: Como instalar a extensão PyMark no Visual Studio Code <a id="secao-2" name="secao-2"></a>
+
+O PyMark é uma extensão para o Visual Studio Code que permite a visualização e edição de documentos escritos em Markdown, ao mesmo tempo que fornece recursos adicionais específicos para documentos que contenham código em Python. Neste tutorial, explicaremos como instalar essa extensão no Visual Studio Code.
+
+## Passo 1: Abrir o Visual Studio Code
+
+Se você ainda não tem o Visual Studio Code instalado, faça o download e instale-o em seu sistema operacional a partir do site oficial (https://code.visualstudio.com/).
+
+## Passo 2: Abrir a guia de extensões
+
+No Visual Studio Code, abra a guia de extensões clicando no ícone da extensão localizado na barra lateral esquerda ou use o atalho `Ctrl+Shift+X` (Windows/Linux) ou `Cmd+Shift+X` (Mac).
+
+## Passo 3: Pesquisar a extensão PyMark
+
+Na caixa de pesquisa da guia de extensões, digite "PyMark" e pressione `Enter`. Isso filtrará as extensões disponíveis e mostrará a extensão PyMark na lista de resultados.
+
+## Passo 4: Instalar a extensão
+
+Clique no botão "Instalar" ao lado da extensão PyMark para iniciar o processo de instalação. Espere até que a instalação seja concluída. Uma vez instalada, o botão "Instalar" mudará para "Recarregar". Clique em "Recarregar" para ativar a extensão.
+
+## Passo 5: Configurações adicionais (opcional)
+
+Após a instalação, você pode ajustar algumas configurações da extensão PyMark, se necessário. Para acessar as configurações, clique no ícone de engrenagem no canto inferior direito da guia de extensões e selecione "Configurações". Na barra de pesquisa, digite "pymark" para encontrar as opções específicas da extensão. Ajuste as configurações conforme suas preferências.
+
+## Passo 6: Começar a usar o PyMark
+
+Agora que a extensão PyMark está instalada, você pode criar ou abrir um arquivo Markdown com código Python no Visual Studio Code. A extensão PyMark fornecerá recursos extras para facilitar a edição e visualização desses arquivos, como realce de sintaxe aprimorado, suporte para visualização de resultados de código inline e outros recursos específicos do PyMark.
+
+Parabéns! Você instalou com sucesso a extensão PyMark no Visual Studio Code e está pronto para aproveitar seus recursos aprimorados ao trabalhar com documentos Markdown que contenham código Python.
