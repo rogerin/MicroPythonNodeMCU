@@ -5,7 +5,7 @@
 
 
 
-# Como baixar e configurar o driver do NodeMCU <a id="secao-1" name="secao-1"></a>
+# Como baixar e configurar o driver do NodeMCU <a id="secao-0" name="secao-0"></a>
 
 O NodeMCU é uma plataforma de desenvolvimento IoT baseada no ESP8266, amplamente utilizada para projetos de Internet das Coisas. Para programar e interagir com o NodeMCU em seu computador, você precisará instalar o driver correto para estabelecer uma conexão com a placa. Neste artigo, vamos guiá-lo passo a passo no processo de baixar e configurar o driver do NodeMCU em um sistema Windows.
 
