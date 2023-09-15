@@ -2,7 +2,9 @@
 - [Como baixar e configurar o driver do NodeMCU](#secao-0)
 - [Tutorial de Configuração do NodeMCU com MicroPython](#secao-1)
 - [Tutorial: Como instalar a extensão PyMark no Visual Studio Code](#secao-2)
-
+- [Configurando OTA no ESP](#secao-3)
+- [Preparando firmware para atualização](#secao-4)
+  
 
 
 # Como baixar e configurar o driver do NodeMCU <a id="secao-0" name="secao-0"></a>
@@ -136,3 +138,222 @@ Após a instalação, você pode ajustar algumas configurações da extensão Py
 Agora que a extensão PyMark está instalada, você pode criar ou abrir um arquivo Markdown com código Python no Visual Studio Code. A extensão PyMark fornecerá recursos extras para facilitar a edição e visualização desses arquivos, como realce de sintaxe aprimorado, suporte para visualização de resultados de código inline e outros recursos específicos do PyMark.
 
 Parabéns! Você instalou com sucesso a extensão PyMark no Visual Studio Code e está pronto para aproveitar seus recursos aprimorados ao trabalhar com documentos Markdown que contenham código Python.
+
+-------
+
+# Configurando OTA no ESP <a id="secao-3" name="secao-3"></a>
+
+Para configurar o Over-The-Air (OTA) no ESP32 com MicroPython para enviar atualizações via Wi-Fi, você pode seguir os passos a seguir. Certifique-se de ter o MicroPython instalado no seu ESP32 e uma rede Wi-Fi configurada antes de prosseguir.
+
+1. **Instale o Firmware do ESP32 com suporte a OTA**: Certifique-se de que o firmware do seu ESP32 suporta OTA. Você pode verificar isso ao compilar o firmware do MicroPython com suporte a OTA ou procurar uma versão pré-compiled com suporte a OTA. O suporte a OTA geralmente é ativado por padrão nas compilações recentes.
+
+2. **Conecte-se à Rede Wi-Fi**:
+
+   ```python
+   import network
+
+   ssid = "SUA_REDE_WIFI"
+   password = "SUA_SENHA_WIFI"
+
+   wlan = network.WLAN(network.STA_IF)
+   wlan.active(True)
+   wlan.connect(ssid, password)
+
+   while not wlan.isconnected():
+       pass
+
+   print("Conectado à rede Wi-Fi")
+   ```
+
+3. **Defina o Nome do Host**:
+
+   Defina um nome de host para o seu ESP32. Isso é útil para identificar o dispositivo na rede. Você pode fazer isso com o seguinte código:
+
+   ```python
+   import machine
+
+   hostname = "nome-do-seu-esp32"
+   machine.hostname(hostname)
+   ```
+
+4. **Configurar o OTA no ESP32**:
+
+   Você precisará importar o módulo `ota_updater` no seu código e configurá-lo com as informações corretas do servidor OTA.
+
+   ```python
+   from ota_updater import OTAUpdater
+
+   ota_host = "http://seu-servidor-ota.com/atualizacoes"
+   ota_username = "seu-usuario"
+   ota_password = "sua-senha"
+
+   ota_updater = OTAUpdater(ota_host, ota_username, ota_password)
+   ```
+
+5. **Verifique e Instale Atualizações**:
+
+   Você pode verificar e instalar atualizações chamando as funções apropriadas do `OTAUpdater`. Aqui está um exemplo básico de como verificar atualizações:
+
+   ```python
+   if ota_updater.check_for_update():
+       ota_updater.download_and_install_update()
+   ```
+
+6. **Inicialize o Código Principal do Seu Projeto**:
+
+   Após a verificação e/ou instalação das atualizações, você pode inicializar o código principal do seu projeto.
+
+7. **Loop de Verificação de Atualizações**:
+
+   Coloque o código para verificar atualizações em um loop para verificar periodicamente as atualizações disponíveis. Você pode usar temporizadores para isso:
+
+   ```python
+   import time
+
+   while True:
+       if ota_updater.check_for_update():
+           ota_updater.download_and_install_update()
+       # Seu código principal aqui
+       time.sleep(3600)  # Verifica atualizações a cada 1 hora (ajuste conforme necessário)
+   ```
+
+8. **Implemente o Servidor OTA**:
+
+   Certifique-se de ter um servidor OTA configurado para fornecer as atualizações. O servidor OTA deve conter os binários das versões do firmware e disponibilizá-los para download conforme solicitado pelo ESP32.
+
+Lembre-se de que a segurança é uma consideração importante ao implementar o OTA. Certifique-se de proteger a comunicação entre o ESP32 e o servidor OTA e de autenticar o dispositivo de forma adequada para evitar atualizações não autorizadas.
+
+Este é um exemplo básico de como configurar o OTA em um ESP32 com MicroPython. Você pode adaptar e estender este código de acordo com as necessidades específicas do seu projeto e implementação do servidor OTA. Certifique-se de consultar a documentação e as práticas recomendadas do MicroPython para obter informações mais detalhadas.
+
+
+--------
+# Preparando firmware para atualização <a id="secao-4" name="secao-4"></a>
+
+Para implementar um código de atualização OTA (Over-The-Air) simples que realiza apenas um blink no ESP32, você pode criar um arquivo binário que contém esse código e disponibilizá-lo em seu servidor OTA. Aqui estão os passos para criar um arquivo de firmware binário para um blink e fornecê-lo em seu servidor OTA:
+
+1. **Crie o código de blink**:
+
+   Crie um código de blink simples em um arquivo Python que pisque um LED no seu ESP32. Por exemplo:
+
+   ```python
+   import machine
+   import time
+
+   led = machine.Pin(2, machine.Pin.OUT)
+
+   while True:
+       led.value(not led.value())
+       time.sleep(1)
+   ```
+
+   Salve esse código em um arquivo chamado `main.py`.
+
+2. **Compile o código em um arquivo binário**:
+
+   Você pode usar o utilitário `esptool.py` para compilar o código em um arquivo binário que pode ser atualizado via OTA. Use o seguinte comando para criar o arquivo binário:
+
+   ```
+   esptool.py --chip esp32 elf2image --flash_mode dio --flash_freq 40m --flash_size 4MB -o firmware.bin main.py
+   ```
+
+   Certifique-se de ajustar as opções conforme necessário, dependendo da configuração do seu ESP32.
+
+3. **Crie um servidor OTA simples**:
+
+   Você pode criar um servidor OTA simples usando uma biblioteca Python, como Flask, para fornecer o arquivo binário. Aqui está um exemplo mínimo usando Flask:
+
+   ```python
+   from flask import Flask, send_file
+
+   app = Flask(__name__)
+
+   @app.route('/atualizacoes')
+   def firmware_update():
+       return send_file('firmware.bin', as_attachment=True)
+
+   if __name__ == '__main__':
+       app.run(host='0.0.0.0', port=80)
+   ```
+
+   Certifique-se de que o arquivo `firmware.bin` esteja na mesma pasta que este código do servidor OTA.
+
+4. **Execute o servidor OTA**:
+
+   Execute o servidor OTA usando o comando `python`:
+
+   ```
+   python seu_servidor_ota.py
+   ```
+
+5. **Configure o ESP32 para verificar atualizações e atualizar via OTA**:
+
+   Use o código que mencionei anteriormente para verificar atualizações e atualizar via OTA. Certifique-se de que o ESP32 possa acessar o servidor OTA no endereço `http://seu-servidor-ota.com/atualizacoes`.
+
+Depois de seguir esses passos, o ESP32 verificará periodicamente as atualizações disponíveis em seu servidor OTA e, quando uma atualização estiver disponível, irá baixá-la e atualizar seu firmware. Certifique-se de que o servidor OTA esteja configurado para fornecer o arquivo `firmware.bin` que você criou e que o ESP32 tenha acesso à rede para realizar as atualizações.
+
+
+-----
+
+# Verificando versão 
+
+Para implementar uma verificação de versão antes de atualizar o firmware via OTA (Over-The-Air), você precisa manter um número de versão em seu código e no servidor OTA. Aqui estão os passos para fazer isso:
+
+**No ESP32 (Cliente)**:
+
+1. **Defina uma versão no código**: Adicione uma variável global que represente a versão do firmware no seu código ESP32. Por exemplo:
+
+   ```python
+   firmware_version = "1.0"
+   ```
+
+2. **Recupere a versão do servidor OTA**: Quando o ESP32 verifica as atualizações, faça uma solicitação HTTP para o servidor OTA para obter a versão mais recente disponível. Você pode fazer isso usando uma API REST simples no servidor OTA que retorne a versão atual.
+
+   ```python
+   import urequests
+
+   def get_latest_version():
+       try:
+           response = urequests.get("http://seu-servidor-ota.com/versao")
+           if response.status_code == 200:
+               return response.text
+           else:
+               return None
+       except Exception as e:
+           print("Erro ao obter a versão:", e)
+           return None
+   ```
+
+3. **Compare as versões e atualize se necessário**: Após obter a versão mais recente do servidor OTA, compare-a com a versão atual no ESP32 e decida se deve atualizar ou não.
+
+   ```python
+   latest_version = get_latest_version()
+
+   if latest_version and latest_version != firmware_version:
+       print("Nova versão disponível. Atualizando...")
+       # Chame a função de atualização OTA aqui
+   else:
+       print("O firmware está atualizado.")
+   ```
+
+**No Servidor OTA**:
+
+1. **Forneça a versão mais recente**: Crie uma rota no seu servidor OTA para fornecer a versão mais recente do firmware quando solicitada.
+
+   ```python
+   from flask import Flask
+
+   app = Flask(__name__)
+
+   latest_version = "1.0"  # Atualize para a versão mais recente disponível
+
+   @app.route('/versao')
+   def get_latest_firmware_version():
+       return latest_version
+
+   if __name__ == '__main__':
+       app.run(host='0.0.0.0', port=80)
+   ```
+
+Dessa forma, o ESP32 verificará a versão atual no servidor OTA antes de decidir se deve ou não iniciar a atualização OTA. Se a versão do servidor OTA for diferente da versão atual do ESP32, a atualização será iniciada.
+
+Lembre-se de manter a versão atualizada em ambos os lados, no ESP32 e no servidor OTA, sempre que você criar uma nova versão do firmware.
