@@ -5,6 +5,9 @@
 - [Configurando OTA no ESP](#secao-3)
 - [Preparando firmware para atualização](#secao-4)
   
+# Sobre esse repositório/tutorial
+
+Este tutorial oferece um guia abrangente para desenvolvedores e entusiastas da IoT interessados em trabalhar com o NodeMCU, uma plataforma popular baseada no ESP8266. Abrange desde a configuração inicial do driver e a programação com MicroPython até técnicas avançadas como atualizações Over-The-Air (OTA) e preparação de firmware. É ideal para quem deseja explorar o desenvolvimento de projetos de Internet das Coisas, com foco em habilidades práticas como instalação de extensões no Visual Studio Code para melhorar a produtividade, e configuração de OTA para atualizações de firmware sem fio. Através de passo a passo detalhados, os leitores aprenderão a instalar drivers, configurar o ambiente de desenvolvimento, programar o NodeMCU, e implementar atualizações OTA, tornando este tutorial valioso tanto para iniciantes quanto para usuários avançados interessados em aprofundar seus conhecimentos em IoT.
 
 
 # Como baixar e configurar o driver do NodeMCU <a id="secao-0" name="secao-0"></a>
