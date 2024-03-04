@@ -67,12 +67,12 @@ Neste tutorial, vamos aprender como configurar o NodeMCU para trabalhar com Micr
 
 3. Utilizando o esptool.py, um utilitário para gravação de firmware no ESP8266, abra o terminal e execute o seguinte comando (substitua `COMx` pela porta COM identificada no passo anterior):
    ```
-    esptool.py --port COMx erase_flash
+    esptool.py --chip esp32 --port COMx erase_flash
    ```
 
 4. Agora, grave o firmware do MicroPython no NodeMCU usando o comando (substitua `firmware.bin` pelo caminho completo do arquivo do firmware que você baixou):
    ```
-   esptool.py --port COMx --baud 115200 write_flash --flash_size=detect 0 firmware.bin
+   esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 firmware.bin
    ```
 
 5. O firmware do MicroPython deve estar instalado no NodeMCU agora.
